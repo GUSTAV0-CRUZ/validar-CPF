@@ -50,6 +50,7 @@ function myScope() {
         if(this.cpf.length > 14) return `CPF inválido`
         const cpfLimpo = this.cpf.replace(/[^a-zA-Z0-9]/g, '');
         if(cpfLimpo.length != 11) return `CPF inválido`
+        if(cpfLimpo[0].repeat(11) == cpfLimpo) return `CPF inválido`;
         const cpfArrey = Array(cpfLimpo);
         const cadaNumber = cpfArrey[0].split("");
 
