@@ -18,13 +18,13 @@ function myScope() {
     })
 
     getConteudo = () => {
-        const validar = new ValidaCpf(widthInput.value);
-        appendText(validar.validaCpf());
-        if(validar.validaCpf() == 'CPF válido') {
+        const validar = new ValidarCpf(widthInput.value);
+        appendText(validar.checagemFinal());
+        if(validar.checagemFinal() === 'CPF válido') {
             textAqui.classList.remove('p-cpfInvalido')
             textAqui.classList.add('p-cpfValido');
         }
-        if(validar.validaCpf() === 'CPF inválido'){
+        if(validar.checagemFinal() === 'CPF inválido'){
             textAqui.classList.remove('p-cpfValido')
             textAqui.classList.add('p-cpfInvalido');
         }
@@ -38,71 +38,70 @@ function myScope() {
     appendText = (texto) => {
             textAqui.innerHTML = texto;
     }
-    
 
-    //object
-    function ValidaCpf(cpf) {
-        this.cpf = cpf;
-    }
 
-    // prototype
-    ValidaCpf.prototype.validaCpf = function() {
-        if(this.cpf.length > 14) return `CPF inválido`
-        const cpfLimpo = this.cpf.replace(/[^a-zA-Z0-9]/g, '');
-        if(cpfLimpo.length != 11) return `CPF inválido`
-        if(cpfLimpo[0].repeat(11) == cpfLimpo) return `CPF inválido`;
-        const cpfArrey = Array(cpfLimpo);
-        const cadaNumber = cpfArrey[0].split("");
+    //class
+    class ValidarCpf {
 
-        function mulplicaCadaNumero(Cont1or2) {
-            const numeroSeparado = []
-            let contador = 0;
-            if(Cont1or2 === 0)
-                contador = 10;
-            if(Cont1or2 === 1)
-                contador = 11;
-            const cpfMult = cadaNumber.reduce((acumulador ,valor) => {
-                valor = Number(valor);
-                valor *= contador;
-                acumulador += valor;
-                contador--;
-                if(contador < 2)
-                    contador = 0;
-                numeroSeparado.push(acumulador);
-                return acumulador = 0;
-            },[ ], 1)
-                return numeroSeparado
-        }
-        
-        const cpfPAraComparar = [...cadaNumber]
-        cpfPAraComparar.splice(9, 2)    
-        
-        for(let i = 0; i < 2; i++){
-            const cpfMult = mulplicaCadaNumero(i).reduce((acumulador ,valor) => {
-                valor = Number(valor);
-                valor += acumulador;
-                acumulador = valor;
-                return acumulador;
-            }, 0)
-            const ajustaNumeros = 11 - (cpfMult % 11)
-            cpfPAraComparar.push(ajustaNumeros)
-
+        constructor(cpf) {
+            this.cpf = cpf;
         }
 
-        let validar;
-        for(let i = 0; i < 11; i++) {
-            cadaNumber[i] = Number(cadaNumber[i]);
-            cpfPAraComparar[i] = Number(cpfPAraComparar[i]);
+        
+        limpaCpf() {
+            let cpfLimpo = this.cpf.replace(/[^a-zA-Z0-9]/g, '');
+                return cpfLimpo
+        }
 
-            if(cpfPAraComparar[i] === cadaNumber[i]){
-                validar = 'válido';
-            }else{
-                validar = 'inválido';
-                break
+        verificarEntrada() {
+            let cpf = this.limpaCpf();
+            if(cpf.length != 11) return ''
+            cpf.replace(/\D/g, '');
+            if(cpf[0].repeat(11) === cpf) return ''
+                return cpf
+        }
+
+        cadaNumberEmArray() {
+            const array = new Array()
+            const cpf = this.verificarEntrada();
+            for(let el of cpf) {
+                array.push(Number(el))
             }
+            return array
         }
-            return `CPF ${validar}`
-    };
 
+        retornaDoisUltimosNumber() {
+            const doisUltimosDigitos = new Array();
+            let contador;
+            for(let i = 0; i < 2; i++) {
+                i == 0 ? contador = 10 : contador = 11
+                const numeroSomado = this.cadaNumberEmArray().reduce((acumulador, valor) => {
+                    if(contador < 2) return acumulador
+                    valor *= contador
+                    acumulador += valor;
+                    contador--;            
+                    return (acumulador)
+                },0);
+                doisUltimosDigitos.push(11 - (numeroSomado % 11))
+            }
+
+            return doisUltimosDigitos
+        }
+
+        geraArrayComparar() {
+            const arreyComparar = [...this.cadaNumberEmArray()];
+            arreyComparar.splice(-2, 2);
+            const arrayJunta = [...arreyComparar,...this.retornaDoisUltimosNumber()]
+
+            return arrayJunta
+        }
+
+        checagemFinal() {
+            for(let i = 0; i < 11; i++) {
+                if(this.cadaNumberEmArray()[i] !== this.geraArrayComparar()[i]) return 'CPF inválido'
+            }
+            return 'CPF válido'
+        }
+    }
 }
 myScope()
