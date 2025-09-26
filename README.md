@@ -10,21 +10,19 @@
 
 Este projeto é uma ferramenta de front-end desenvolvida para verificar a autenticidade de um número de CPF. O usuário insere o CPF em um campo de texto e a aplicação, através de uma lógica implementada em JavaScript, calcula os dígitos verificadores e informa se o número é válido ou inválido.
 
-O principal objetivo foi criar uma aplicação funcional para praticar a implementação de algoritmos, a manipulação do DOM e a orientação a objetos baseada em protótipos no JavaScript.
-
-
+O principal objetivo foi criar uma aplicação funcional para praticar a implementação de algoritmos e a manipulação do DOM. O projeto foi recentemente **refatorado para utilizar a sintaxe de `class` do ES6**, resultando em um código mais moderno, modular e de fácil manutenção.
 
 ## 🛠️ Arquitetura e Conceitos Aplicados
 
-O projeto foi construído com uma estrutura simples de HTML, CSS e JavaScript, focando na lógica de validação e na interatividade com o usuário.
+O projeto foi construído com uma estrutura simples de HTML, CSS e JavaScript, focando na lógica de validação e na interatividade com o usuário. A versão atual foi refatorada para utilizar práticas mais modernas de JavaScript.
 
 Os principais conceitos técnicos empregados são:
 
-* **Algoritmo de Validação de CPF:** O núcleo da aplicação é a implementação fiel do algoritmo de cálculo dos dois dígitos verificadores do CPF. A lógica multiplica os primeiros 9 e, posteriormente, 10 dígitos por pesos decrescentes para gerar os dígitos finais e compará-los com os fornecidos.
+* **JavaScript Moderno (ES6) e Orientação a Objetos:** A lógica de validação foi encapsulada em uma **`class`** chamada `ValidarCpf`. Essa abordagem, introduzida no ES6, organiza o código de forma mais clara e intuitiva. A lógica foi segmentada em vários métodos pequenos e especializados (como `limpaCpf`, `retornaDoisUltimosNumber` e `checagemFinal`), melhorando a legibilidade e a manutenção do código.
 
-* **JavaScript Orientado a Protótipos:** A lógica de validação foi encapsulada de forma elegante em uma função construtora (`ValidaCpf`). O método de validação (`validaCpf`) foi adicionado ao `prototype` do construtor. Esta é uma abordagem clássica e eficiente em JavaScript, que garante que o método não seja recriado para cada instância, otimizando o uso de memória.
+* **Algoritmo de Validação de CPF:** O núcleo da aplicação continua sendo a implementação fiel do algoritmo de cálculo dos dois dígitos verificadores do CPF, garantindo a precisão da ferramenta.
 
-* **Manipulação do DOM e Eventos:** A aplicação utiliza `addEventListener` para capturar eventos de clique nos botões e o pressionar da tecla "Enter" no campo de input. Com base nesses eventos, o DOM é dinamicamente atualizado para exibir o resultado da validação.
+* **Manipulação do DOM e Eventos:** A aplicação utiliza `addEventListener` para capturar eventos de clique e de teclado (`Enter`), atualizando o DOM dinamicamente para exibir o resultado da validação ao usuário.
 
 * **Feedback Visual para o Usuário:** O CSS é utilizado para fornecer uma resposta visual clara e imediata. A caixa de resultado muda de cor (verde para válido, vermelho/marrom para inválido), melhorando a experiência do usuário.
 
