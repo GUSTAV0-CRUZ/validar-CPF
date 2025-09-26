@@ -82,7 +82,7 @@ function myScope() {
                     contador--;            
                     return (acumulador)
                 },0);
-                doisUltimosDigitos.push(11 - (numeroSomado % 11))
+                (11 - (numeroSomado % 11)) > 9 ? doisUltimosDigitos.push(0) : doisUltimosDigitos.push(11 - (numeroSomado % 11))   
             }
 
             return doisUltimosDigitos
